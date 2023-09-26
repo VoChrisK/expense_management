@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react';
+import User from './components/User/User';
+import Expense from './components/Expense/Expense';
+import * as _ from 'lodash';
 
-function App() {
+const App = () => {
+  const [users, setUsers] = useState({});
+  const [userId, setUserId] = useState(1);
+  const [expenses, setExpenses] = useState({});
+  const [expenseId, setExpenseId] = useState(1);
+
+  const addUser = (firstName, lastName) => {
+    const clonedUsers = _.cloneDeep(users);
+
+    clonedUsers[userId] = {
+      firstName,
+      lastName
+    }
+
+    console.log(clonedUsers);
+
+    setUsers(clonedUsers);
+    setUserId(userId + 1);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <User users={users} addUser={addUser} />
+      <Expense users={users} />
+    </>
   );
 }
 
