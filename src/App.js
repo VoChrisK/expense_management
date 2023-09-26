@@ -18,17 +18,23 @@ const App = () => {
       lastName
     }
 
-    console.log(clonedUsers);
-
     setUsers(clonedUsers);
     setUserId(userId + 1);
   }
 
+  const deleteUser = (userId) => {
+    const clonedUsers = _.cloneDeep(users);
+    delete clonedUsers[userId];
+
+    setUsers(clonedUsers);
+  }
+
   return (
-    <>
-      <User users={users} addUser={addUser} />
+    <div className="home">
+      <h1>User and Expense Management</h1>
+      <User users={users} addUser={addUser} deleteUser={deleteUser} />
       <Expense users={users} />
-    </>
+    </div>
   );
 }
 
