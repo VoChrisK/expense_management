@@ -1,9 +1,3 @@
-.user-table {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .name-input {
   width: 15rem;
   height: 2rem;
@@ -15,13 +9,6 @@
 .user-form {
   display: flex;
   align-items: center;
-  margin-top: 2rem;
-}
-
-.name-column {
-  border: 1px solid black;
-  min-width: 10rem;
-  padding: 5px;
 }
 
 .user-options {
@@ -37,6 +24,7 @@
   height: 2.3rem;
 }
 
-.center-header{
+.center-header {
+  margin-top: 3rem;
   text-align: center;
 }

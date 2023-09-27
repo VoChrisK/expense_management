@@ -13,20 +13,22 @@ const User = ({ users, addUser, deleteUser }) => {
 
   return (
     <>
-      <table className='user-table'>
+      <table className='table'>
         <h1>User Table</h1>
         <tr>
-          <th className='name-column'>First Name</th>
-          <th className='name-column'>Last Name</th>
-          <th className='name-column'>Options</th>
+          <th className='table-column'>First Name</th>
+          <th className='table-column'>Last Name</th>
+          <th className='table-column'>Total Expense</th>
+          <th className='table-column'>Options</th>
         </tr>
         {
           Object.entries(users).map((user) => {
             return (
               <tr>
-                <th className='name-column'>{user[1].firstName}</th>
-                <th className='name-column'>{user[1].lastName}</th>
-                <th className='name-column'>
+                <th className='table-column'>{user[1].firstName}</th>
+                <th className='table-column'>{user[1].lastName}</th>
+                <th className='table-column'>{user[1].totalExpense}</th>
+                <th className='table-column'>
                   <button className='user-options'>Edit</button>
                   <button className='user-options' onClick={() => deleteUser(user[0])}>Delete</button>
                 </th>
@@ -35,20 +37,20 @@ const User = ({ users, addUser, deleteUser }) => {
           })
         }
       </table>
-        <form onSubmit={handleOnSubmit}>
-          <h1 className='center-header'>Add a User</h1>
-          <div className="user-form">
-            <div className='name-container'>
-              <label>First Name</label>
-              <input type='text' placeholder='First Name' className='name-input' required />
-            </div>
-            <div className='name-container'>
-              <label>Last Name</label>
-              <input type='text' placeholder='Last Name' className='name-input' required />
-            </div>
-            <button className='save-user'>Save User</button>
+      <form onSubmit={handleOnSubmit}>
+        <h1 className='center-header'>Add a user</h1>
+        <div className="user-form">
+          <div className='form-container'>
+            <label>First Name</label>
+            <input type='text' placeholder='First Name' className='name-input' required />
           </div>
-        </form>
+          <div className='form-container'>
+            <label>Last Name</label>
+            <input type='text' placeholder='Last Name' className='name-input' required />
+          </div>
+          <button className='save-user'>Add User</button>
+        </div>
+      </form>
     </>
   );
 }

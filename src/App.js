@@ -15,7 +15,8 @@ const App = () => {
 
     clonedUsers[userId] = {
       firstName,
-      lastName
+      lastName,
+      totalExpense: 0
     }
 
     setUsers(clonedUsers);
@@ -29,11 +30,51 @@ const App = () => {
     setUsers(clonedUsers);
   }
 
+  const addExpense = (userId, activity, description, cost) => {
+    const clonedExpenses = _.cloneDeep(expenses);
+    const clonedUsers = _.cloneDeep(users);
+
+    clonedExpenses[expenseId] = {
+      userId,
+      activity,
+      description,
+      cost
+    }
+    clonedUsers[userId].totalExpense += Number(cost);
+
+    setExpenses(clonedExpenses);
+    setUsers(clonedUsers);
+    setExpenseId(expenseId + 1);
+  }
+
+  const deleteExpense = (expenseId, userId, cost) => {
+    const clonedExpenses = _.cloneDeep(expenses);
+    const clonedUsers = _.cloneDeep(users);
+
+    console.log(expenseId);
+    
+    delete clonedExpenses[expenseId];
+
+    clonedUsers[userId].totalExpense -= Number(cost);
+    
+    setExpenses(clonedExpenses);
+    setUsers(clonedUsers);
+  }
+
   return (
     <div className="home">
       <h1>User and Expense Management</h1>
-      <User users={users} addUser={addUser} deleteUser={deleteUser} />
-      <Expense users={users} />
+      <User 
+        users={users} 
+        addUser={addUser} 
+        deleteUser={deleteUser} 
+      />
+      <Expense 
+        users={users} 
+        expenses={expenses}
+        addExpense={addExpense}
+        deleteExpense={deleteExpense}
+      />
     </div>
   );
 }
