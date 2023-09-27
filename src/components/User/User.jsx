@@ -8,7 +8,6 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
   const [modal, setModal] = useState("None");
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Time complexity: O(1)
   const addUser = (newUser) => {
     const clonedUsers = _.cloneDeep(users);
 
@@ -20,7 +19,6 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
     setUserId(userId + 1);
   }
 
-  // Time complexity: O(1)
   const updateUser = (existingUser) => {
     const clonedUsers = _.cloneDeep(users);
     clonedUsers[existingUser.id] = existingUser;
@@ -28,7 +26,6 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
     updateUsers(clonedUsers);
   }
 
-  // Time complexity: O(m), where m is # of expenses
   const deleteUser = (userId) => {
     const clonedUsers = _.cloneDeep(users);
     const clonedExpenses = _.cloneDeep(expenses);
@@ -56,18 +53,18 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
     <div className='section'>
       { modal === "Add" && <FormUserModal modifyUser={addUser} closeModal={closeModal} type="Add" /> }
       { modal === "Update" && <FormUserModal modifyUser={updateUser} closeModal={closeModal} type="Update" user={currentUser} /> }
+      <h1>User Table</h1>
       <table className='table'>
-        <h1>User Table</h1>
         <tr>
           <th className='table-column'>First Name</th>
           <th className='table-column'>Last Name</th>
-          <th className='table-column'>Total Expense</th>
+          <th className='table-column'>Total Expenses</th>
           <th className='table-column'>Options</th>
         </tr>
         {
-          Object.entries(users).map((user) => {
+          Object.entries(users).map((user, key) => {
             return (
-              <tr>
+              <tr key={key}>
                 <th className='table-column'>{user[1].firstName}</th>
                 <th className='table-column'>{user[1].lastName}</th>
                 <th className='table-column'>{user[1].totalExpenses.length}</th>
@@ -80,7 +77,7 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
           })
         }
       </table>
-      <button onClick={() => setModal("Add")}>Add new user</button>
+      <button className='user-options' onClick={() => setModal("Add")}>Add new user</button>
     </div>
   );
 }

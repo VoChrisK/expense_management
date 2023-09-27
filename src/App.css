@@ -29,6 +29,7 @@ label {
 .form-input-container {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .table-column {
@@ -43,9 +44,11 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 20rem;
+  min-height: 22rem;
+  max-height: 22rem;
   overflow: auto;
   margin-bottom: 20px;
+  border: 1px solid black;
 }
 
 .text-input {
@@ -71,15 +74,37 @@ label {
 .modal-content {
   width: 50%;
   margin: 15% auto;
-  background-color: grey;
+  background-color: white;
+  border: 1px solid black;
   border-radius: 10px;
   padding: 3px;
 }
 
 .modal-close {
-  position: absolute;
-  right: 400px;
   font-size: 36px;
   color: red;
   cursor: pointer;
+  margin-bottom: 3.5rem;
+}
+
+.user-options {
+  background-color: white;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 7px;
+  cursor: pointer;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.center-header {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 12rem;
 }

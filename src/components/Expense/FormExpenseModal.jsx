@@ -1,13 +1,6 @@
 import React from 'react';
 import './Expense.css';
-
-const categories = [
-  "Food & Drinks",
-  "Activity",
-  "Office Equipment",
-  "Travel",
-  "Miscellaneous"
-]
+import { categories } from '../../models/categories';
 
 const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) => {
   const handleOnSubmit = (event) => {
@@ -15,10 +8,10 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
 
     const newExpense = {
       ...expense,
-      userId: event.target[0].value,
+      userId: Number(event.target[0].value),
       category: event.target[1].value,
       description: event.target[2].value,
-      cost: event.target[3].value
+      cost: Number(event.target[3].value)
     }
 
     modifyExpense(newExpense, newExpense.userId, expense?.userId);
@@ -28,9 +21,11 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
   return (
     <div className='modal'>
       <div className='modal-content'>
-        <span className="modal-close" onClick={() => closeModal()}>&times;</span>
         <form onSubmit={handleOnSubmit}>
-          <h1 className='center-header'>{type} an expense</h1>
+          <div className='modal-header'>
+            <h1 className='center-header'>{type} an expense</h1>
+            <span className="modal-close" onClick={() => closeModal()}>&times;</span>
+          </div>
           <div className="form-container">
             <div>
               <div className='form-input-container'>
@@ -42,9 +37,9 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
                 >
                   <option value="" disabled>Select</option>
                   {
-                    Object.entries(users).map((user) => {
+                    Object.entries(users).map((user, key) => {
                       return (
-                        <option value={user[0]}>{user[1]?.firstName} {user[1]?.lastName}</option>
+                        <option value={user[0]} key={key}>{user[1]?.firstName} {user[1]?.lastName}</option>
                       );
                     })
                   }
@@ -59,9 +54,9 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
                 >
                   <option value="" disabled>Select</option>
                   {
-                    categories.map((category) => {
+                    categories.map((category, key) => {
                       return (
-                        <option value={category}>{category}</option>
+                        <option value={category} key={key}>{category}</option>
                       )
                     })
                   }
@@ -90,7 +85,7 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
                 />
               </div>
             </div>
-            <button>{type} Expense</button>
+            <button className='user-options'>{type} Expense</button>
           </div>
         </form>
       </div>

@@ -17,10 +17,10 @@ const FormUserModal = ({ modifyUser, closeModal, type, user }) => {
   return (
     <div className='modal'>
       <div className='modal-content'>
-        <span className="modal-close" onClick={() => closeModal()}>&times;</span>
         <form onSubmit={handleOnSubmit}>
           <div className='modal-header'>
             <h1 className='center-header'>{type} a user</h1>
+            <span className="modal-close" onClick={() => closeModal()}>&times;</span>
           </div>
           <div className="form-container">
             <div className='form-input-container'>
@@ -43,7 +43,7 @@ const FormUserModal = ({ modifyUser, closeModal, type, user }) => {
                 required 
               />
             </div>
-            <button className='save-user'>{type} User</button>
+            <button className='save-user button-options'>{type} User</button>
           </div>
         </form>
       </div>

@@ -1,35 +1,34 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 const Summary = ({ expenses }) => {
-  //Time complexity: O(m), where m is # of expenses
-  const groupByCategories = () => {
+  const groupByCategories = useCallback(() => {
     const group = {};
 
     Object.values(expenses).forEach((expense) => {
       if (expense.category in group) {
-        group[expense.category] += Number(expense.cost);
+        group[expense.category] += expense.cost;
       } else {
-        group[expense.category] = Number(expense.cost);
+        group[expense.category] = expense.cost;
       }
     })
 
     return group;
-  }
+  }, [expenses])
 
   return (
-    <div>
+    <div className='section'>
+      <h1>Summary of Expenses</h1>
       <table className='table'>
-        <h1>Summary of Expenses</h1>
         <tr>
           <th className='table-column'>Category</th>
           <th className='table-column'>Total Costs</th>
         </tr>
         {
-          Object.entries(groupByCategories()).map((category) => {
+          Object.entries(groupByCategories()).map((category, key) => {
             return (
-              <tr>
+              <tr key={key}>
                 <th className='table-column'>{category[0]}</th>
-                <th className='table-column'>{category[1]}</th>
+                <th className='table-column'>${category[1]}</th>
               </tr>
             );
           })
