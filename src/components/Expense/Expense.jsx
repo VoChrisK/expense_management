@@ -1,27 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Expense.css';
+import FormExpenseModal from './FormExpenseModal';
+import * as _ from 'lodash';
 
-const categories = [
-  "Food",
-  "Activity",
-  "Office Equipment"
-]
+const Expense = ({ users, expenses, updateExpenses, updateUsers }) => {
+  const [expenseId, setExpenseId] = useState(1);
+  const [modal, setModal] = useState("None");
+  const [currentExpense, setCurrentExpense] = useState(null);
 
-const Expense = ({ users, expenses, addExpense, deleteExpense }) => {
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
+  const addExpense = (newExpense, userId) => {
+    const clonedExpenses = _.cloneDeep(expenses);
+    const clonedUsers = _.cloneDeep(users);
 
-    const userId = event.target[0].value;
-    const activity = event.target[1].value;
-    const description = event.target[2].value;
-    const cost = event.target[3].value;
+    newExpense["id"] = expenseId;
+    clonedExpenses[expenseId] = newExpense;
+    clonedUsers[userId].totalExpense++;
 
-    addExpense(userId, activity, description, cost);
+    updateExpenses(clonedExpenses);
+    updateUsers(clonedUsers);
+    setExpenseId(expenseId + 1);
+  }
+
+  const updateExpense = (existingExpense) => {
+    const clonedExpenses = _.cloneDeep(expenses);
+    clonedExpenses[existingExpense.id] = existingExpense;
+
+    updateExpenses(clonedExpenses);
+  }
+
+  const deleteExpense = (expenseId, userId) => {
+    const clonedExpenses = _.cloneDeep(expenses);
+    const clonedUsers = _.cloneDeep(users);
+    
+    delete clonedExpenses[expenseId];
+
+    clonedUsers[userId].totalExpense--;
+    
+    updateExpenses(clonedExpenses);
+    updateUsers(clonedUsers);
+  }
+
+  const updateExpenseModal = (expense) => {
+    setCurrentExpense(expense);
+    setModal("Update");
+  }
+
+  const closeModal = () => {
+    setModal("None");
   }
 
   return (
     Object.entries(users).length > 0 && 
-      <div className='expense-section'>
+      <div className='section'>
+        { modal === "Add" && <FormExpenseModal modifyExpense={addExpense} closeModal={closeModal} type="Add" users={users} /> }
+        { modal === "Update" && <FormExpenseModal modifyExpense={updateExpense} closeModal={closeModal} type="Update" users={users} expense={currentExpense} /> }
         <table className='table'>
           <h1>Expense Table</h1>
           <tr>
@@ -42,58 +74,15 @@ const Expense = ({ users, expenses, addExpense, deleteExpense }) => {
                   <th className='table-column'>{expense[1].description}</th>
                   <th className='table-column'>{expense[1].cost}</th>
                   <th className='table-column'>
-                    <button className='user-options'>Edit</button>
-                    <button className='user-options' onClick={() => deleteExpense(expense[0], expense[1].userId, expense[1].cost)}>Delete</button>
+                    <button className='user-options' onClick={() => updateExpenseModal(expense[1])}>Edit</button>
+                    <button className='user-options' onClick={() => deleteExpense(expense[0], expense[1].userId)}>Delete</button>
                   </th>
                 </tr>
               );
             })
           }
         </table>
-        <form onSubmit={handleOnSubmit}>
-          <h1 className='center-header'>Add an expense</h1>
-          <div className="form-container">
-            <div>
-              <div className='form-input-container'>
-                <label>Choose a user</label>
-                <select className='expense-dropdown' defaultValue="" required>
-                  <option value="" disabled>Select</option>
-                  {
-                    Object.entries(users).map((user) => {
-                      return (
-                        <option value={user[0]}>{user[1].firstName} {user[1].lastName}</option>
-                      );
-                    })
-                  }
-                </select>
-              </div>
-              <div className='form-input-container'>
-                <label>Choose an activity</label>
-                <select className='expense-dropdown' defaultValue="" required>
-                  <option value="" disabled>Select</option>
-                  {
-                    categories.map((category) => {
-                      return (
-                        <option value={category}>{category}</option>
-                      )
-                    })
-                  }
-                </select>
-              </div>
-            </div>
-            <div>
-              <div className='form-input-container'>
-                <label>Description</label>
-                <input className='text-input' type='text' placeholder='Description' required />
-              </div>
-              <div className='form-input-container'>
-                <label>Cost</label>
-                <input className='text-input' type='number' placeholder='0' required />
-              </div>
-            </div>
-            <button>Add Expense</button>
-          </div>
-        </form>
+        <button onClick={() => setModal("Add")}>Add new expense</button>
       </div>
   );
 }

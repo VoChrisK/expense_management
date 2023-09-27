@@ -10,9 +10,9 @@ const User = ({ users, updateUsers }) => {
 
   const addUser = (newUser) => {
     const clonedUsers = _.cloneDeep(users);
+
     newUser["id"] = userId;
     newUser["totalExpense"] = 0;
-
     clonedUsers[userId] = newUser;
 
     updateUsers(clonedUsers);
@@ -20,12 +20,10 @@ const User = ({ users, updateUsers }) => {
   }
 
   const updateUser = (existingUser) => {
-    if (existingUser.id) {
-      const clonedUsers = _.cloneDeep(users);
-      clonedUsers[existingUser.id] = existingUser;
+    const clonedUsers = _.cloneDeep(users);
+    clonedUsers[existingUser.id] = existingUser;
 
-      updateUsers(clonedUsers);
-    }
+    updateUsers(clonedUsers);
   }
 
   const deleteUser = (userId) => {
