@@ -10,6 +10,10 @@ const App = () => {
   const [expenses, setExpenses] = useState({});
   const [expenseId, setExpenseId] = useState(1);
 
+  const updateUsersState = (updatedUsers) => {
+    setUsers(updatedUsers);
+  }
+
   const addUser = (firstName, lastName) => {
     const clonedUsers = _.cloneDeep(users);
 
@@ -63,9 +67,10 @@ const App = () => {
 
   return (
     <div className="home">
-      <h1>User and Expense Management</h1>
+      {/* <h1>User and Expense Management</h1> */}
       <User 
-        users={users} 
+        users={users}
+        updateUsers={updateUsersState}
         addUser={addUser} 
         deleteUser={deleteUser} 
       />

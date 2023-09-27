@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './User.css';
+import AddUserModal from './AddUserModal';
+import * as _ from 'lodash';
 
-const User = ({ users, addUser, deleteUser }) => {
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
+const User = ({ users, updateUsers, deleteUser }) => {
+  const [userId, setUserId] = useState(1);
+  const [modal, setModal] = useState("None");
 
-    const firstName = event.target[0].value;
-    const lastName = event.target[1].value;
+  const addUser = (newUser) => {
+    const clonedUsers = _.cloneDeep(users);
+    clonedUsers[userId] = newUser;
 
-    addUser(firstName, lastName);
+    updateUsers(clonedUsers);
+    setUserId(userId + 1);
+  }
+
+  const closeModal = () => {
+    setModal("None");
   }
 
   return (
-    <>
+    <div className='section'>
+      { modal === "Add" && <AddUserModal addUser={addUser} closeModal={closeModal} /> }
       <table className='table'>
         <h1>User Table</h1>
         <tr>
@@ -37,21 +46,8 @@ const User = ({ users, addUser, deleteUser }) => {
           })
         }
       </table>
-      <form onSubmit={handleOnSubmit}>
-        <h1 className='center-header'>Add a user</h1>
-        <div className="user-form">
-          <div className='form-container'>
-            <label>First Name</label>
-            <input type='text' placeholder='First Name' className='name-input' required />
-          </div>
-          <div className='form-container'>
-            <label>Last Name</label>
-            <input type='text' placeholder='Last Name' className='name-input' required />
-          </div>
-          <button className='save-user'>Add User</button>
-        </div>
-      </form>
-    </>
+      <button onClick={() => setModal("Add")}>Add new user</button>
+    </div>
   );
 }
 

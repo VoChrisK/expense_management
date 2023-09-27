@@ -1,4 +1,5 @@
 import React from 'react';
+import './Expense.css';
 
 const categories = [
   "Food",
@@ -20,7 +21,7 @@ const Expense = ({ users, expenses, addExpense, deleteExpense }) => {
 
   return (
     Object.entries(users).length > 0 && 
-      <div>
+      <div className='expense-section'>
         <table className='table'>
           <h1>Expense Table</h1>
           <tr>
@@ -51,40 +52,44 @@ const Expense = ({ users, expenses, addExpense, deleteExpense }) => {
         </table>
         <form onSubmit={handleOnSubmit}>
           <h1 className='center-header'>Add an expense</h1>
-          <div className="user-form">
-            <div className='form-container'>
-              <label>Choose a user</label>
-              <select defaultValue="" required>
-                <option value="" disabled>Select</option>
-                {
-                  Object.entries(users).map((user) => {
-                    return (
-                      <option value={user[0]}>{user[1].firstName} {user[1].lastName}</option>
-                    );
-                  })
-                }
-              </select>
+          <div className="form-container">
+            <div>
+              <div className='form-input-container'>
+                <label>Choose a user</label>
+                <select className='expense-dropdown' defaultValue="" required>
+                  <option value="" disabled>Select</option>
+                  {
+                    Object.entries(users).map((user) => {
+                      return (
+                        <option value={user[0]}>{user[1].firstName} {user[1].lastName}</option>
+                      );
+                    })
+                  }
+                </select>
+              </div>
+              <div className='form-input-container'>
+                <label>Choose an activity</label>
+                <select className='expense-dropdown' defaultValue="" required>
+                  <option value="" disabled>Select</option>
+                  {
+                    categories.map((category) => {
+                      return (
+                        <option value={category}>{category}</option>
+                      )
+                    })
+                  }
+                </select>
+              </div>
             </div>
-            <div className='form-container'>
-              <label>Choose an activity</label>
-              <select defaultValue="" required>
-                <option value="" disabled>Select</option>
-                {
-                  categories.map((category) => {
-                    return (
-                      <option value={category}>{category}</option>
-                    )
-                  })
-                }
-              </select>
-            </div>
-            <div className='form-container'>
-              <label>Description</label>
-              <textarea required></textarea>
-            </div>
-            <div className='form-container'>
-              <label>Cost</label>
-              <input type='number' placeholder='0' required />
+            <div>
+              <div className='form-input-container'>
+                <label>Description</label>
+                <input className='text-input' type='text' placeholder='Description' required />
+              </div>
+              <div className='form-input-container'>
+                <label>Cost</label>
+                <input className='text-input' type='number' placeholder='0' required />
+              </div>
             </div>
             <button>Add Expense</button>
           </div>
