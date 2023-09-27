@@ -14,18 +14,25 @@ const Expense = ({ users, expenses, updateExpenses, updateUsers }) => {
 
     newExpense["id"] = expenseId;
     clonedExpenses[expenseId] = newExpense;
-    clonedUsers[userId].totalExpense++;
+    clonedUsers[newExpense.userId].totalExpenses.push(expenseId);
 
     updateExpenses(clonedExpenses);
     updateUsers(clonedUsers);
     setExpenseId(expenseId + 1);
   }
 
-  const updateExpense = (existingExpense) => {
+  const updateExpense = (existingExpense, newUserId, oldUserId) => {
     const clonedExpenses = _.cloneDeep(expenses);
+    const clonedUsers = _.cloneDeep(users);
+
     clonedExpenses[existingExpense.id] = existingExpense;
+    // If users are updated, then also update the users' total expenses array
+    clonedUsers[newUserId].totalExpenses.push(existingExpense.id);
+    const index = clonedUsers[oldUserId].totalExpenses.indexOf(existingExpense.id);
+    clonedUsers[oldUserId].totalExpenses.splice(index, 1);
 
     updateExpenses(clonedExpenses);
+    updateUsers(clonedUsers);
   }
 
   const deleteExpense = (expenseId, userId) => {
@@ -33,8 +40,9 @@ const Expense = ({ users, expenses, updateExpenses, updateUsers }) => {
     const clonedUsers = _.cloneDeep(users);
     
     delete clonedExpenses[expenseId];
-
-    clonedUsers[userId].totalExpense--;
+    // This will remove the id of the deleted expense in the array
+    const index = clonedUsers[userId].totalExpenses.indexOf(expenseId);
+    clonedUsers[userId].totalExpenses.splice(index, 1);
     
     updateExpenses(clonedExpenses);
     updateUsers(clonedUsers);

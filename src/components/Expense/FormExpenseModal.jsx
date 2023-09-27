@@ -19,7 +19,8 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
       cost: event.target[3].value
     }
 
-    modifyExpense(newExpense, event.target[0].value);
+    modifyExpense(newExpense, newExpense.userId, expense?.userId);
+
     closeModal();
   }
 
