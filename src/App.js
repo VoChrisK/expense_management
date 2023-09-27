@@ -6,34 +6,13 @@ import * as _ from 'lodash';
 
 const App = () => {
   const [users, setUsers] = useState({});
-  const [userId, setUserId] = useState(1);
   const [expenses, setExpenses] = useState({});
   const [expenseId, setExpenseId] = useState(1);
 
   const updateUsersState = (updatedUsers) => {
     setUsers(updatedUsers);
   }
-
-  const addUser = (firstName, lastName) => {
-    const clonedUsers = _.cloneDeep(users);
-
-    clonedUsers[userId] = {
-      firstName,
-      lastName,
-      totalExpense: 0
-    }
-
-    setUsers(clonedUsers);
-    setUserId(userId + 1);
-  }
-
-  const deleteUser = (userId) => {
-    const clonedUsers = _.cloneDeep(users);
-    delete clonedUsers[userId];
-
-    setUsers(clonedUsers);
-  }
-
+  
   const addExpense = (userId, activity, description, cost) => {
     const clonedExpenses = _.cloneDeep(expenses);
     const clonedUsers = _.cloneDeep(users);
@@ -71,8 +50,6 @@ const App = () => {
       <User 
         users={users}
         updateUsers={updateUsersState}
-        addUser={addUser} 
-        deleteUser={deleteUser} 
       />
       <Expense 
         users={users} 
