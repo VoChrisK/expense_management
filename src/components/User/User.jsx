@@ -8,6 +8,7 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
   const [modal, setModal] = useState("None");
   const [currentUser, setCurrentUser] = useState(null);
 
+  // Time complexity: O(1)
   const addUser = (newUser) => {
     const clonedUsers = _.cloneDeep(users);
 
@@ -19,6 +20,7 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
     setUserId(userId + 1);
   }
 
+  // Time complexity: O(1)
   const updateUser = (existingUser) => {
     const clonedUsers = _.cloneDeep(users);
     clonedUsers[existingUser.id] = existingUser;
@@ -26,6 +28,7 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
     updateUsers(clonedUsers);
   }
 
+  // Time complexity: O(m), where m is # of expenses
   const deleteUser = (userId) => {
     const clonedUsers = _.cloneDeep(users);
     const clonedExpenses = _.cloneDeep(expenses);

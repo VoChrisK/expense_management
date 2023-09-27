@@ -1,10 +1,12 @@
 import React from 'react';
 import './Expense.css';
 
-const activities = [
-  "Food",
+const categories = [
+  "Food & Drinks",
   "Activity",
-  "Office Equipment"
+  "Office Equipment",
+  "Travel",
+  "Miscellaneous"
 ]
 
 const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) => {
@@ -14,13 +16,12 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
     const newExpense = {
       ...expense,
       userId: event.target[0].value,
-      activity: event.target[1].value,
+      category: event.target[1].value,
       description: event.target[2].value,
       cost: event.target[3].value
     }
 
     modifyExpense(newExpense, newExpense.userId, expense?.userId);
-
     closeModal();
   }
 
@@ -43,24 +44,24 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
                   {
                     Object.entries(users).map((user) => {
                       return (
-                        <option value={user[0]}>{user[1].firstName} {user[1].lastName}</option>
+                        <option value={user[0]}>{user[1]?.firstName} {user[1]?.lastName}</option>
                       );
                     })
                   }
                 </select>
               </div>
               <div className='form-input-container'>
-                <label>Choose an activity</label>
+                <label>Choose a category</label>
                 <select 
                   className='expense-dropdown' 
-                  defaultValue={type === "Update" ? expense.activity : ""}
+                  defaultValue={type === "Update" ? expense.category : ""}
                   required
                 >
                   <option value="" disabled>Select</option>
                   {
-                    activities.map((activity) => {
+                    categories.map((category) => {
                       return (
-                        <option value={activity}>{activity}</option>
+                        <option value={category}>{category}</option>
                       )
                     })
                   }

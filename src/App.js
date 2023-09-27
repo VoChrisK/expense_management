@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import User from './components/User/User';
 import Expense from './components/Expense/Expense';
 import * as _ from 'lodash';
+import Summary from './components/Summary/Summary';
 
 const App = () => {
   const [users, setUsers] = useState({});
@@ -33,6 +34,7 @@ const App = () => {
           updateUsers={updateUsersState}
         />
       </div>
+      <Summary expenses={expenses} />
     </div>
   );
 }
