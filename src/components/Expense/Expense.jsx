@@ -12,9 +12,10 @@ const Expense = ({ users, expenses, updateExpenses, updateUsers }) => {
     const clonedExpenses = _.cloneDeep(expenses);
     const clonedUsers = _.cloneDeep(users);
 
+    // when we add an expense, we need to add to the user's expenseIds set
     newExpense["id"] = expenseId;
     clonedExpenses[expenseId] = newExpense;
-    clonedUsers[newExpense.userId].totalExpenses.push(expenseId);
+    clonedUsers[newExpense.userId].expenseIds.add(expenseId);
 
     updateExpenses(clonedExpenses);
     updateUsers(clonedUsers);
@@ -26,10 +27,11 @@ const Expense = ({ users, expenses, updateExpenses, updateUsers }) => {
     const clonedUsers = _.cloneDeep(users);
 
     clonedExpenses[existingExpense.id] = existingExpense;
-    // If users are updated, then add the expense to the new user and remove it from the old user
-    clonedUsers[newUserId].totalExpenses.push(existingExpense.id);
-    const index = clonedUsers[oldUserId].totalExpenses.indexOf(existingExpense.id);
-    clonedUsers[oldUserId].totalExpenses.splice(index, 1);
+    // If users are updated, then add the expenseId to the new user and remove it from the old user
+    if (oldUserId !== newUserId) {
+      clonedUsers[oldUserId].expenseIds.delete(existingExpense.id);
+      clonedUsers[newUserId].expenseIds.add(existingExpense.id);
+    }
 
     updateExpenses(clonedExpenses);
     updateUsers(clonedUsers);
@@ -40,9 +42,8 @@ const Expense = ({ users, expenses, updateExpenses, updateUsers }) => {
     const clonedUsers = _.cloneDeep(users);
     
     delete clonedExpenses[expenseId];
-    // This will remove the id of the deleted expense in the array
-    const index = clonedUsers[userId].totalExpenses.indexOf(expenseId);
-    clonedUsers[userId].totalExpenses.splice(index, 1);
+    // This will remove the id of the deleted expense in the user's expenseIds set
+    clonedUsers[userId].expenseIds.delete(expenseId);
     
     updateExpenses(clonedExpenses);
     updateUsers(clonedUsers);
@@ -76,7 +77,7 @@ const Expense = ({ users, expenses, updateExpenses, updateUsers }) => {
 
             return (
               <tr key={key}>
-                <th className='table-column'>{user?.firstName} {user?.lastName}</th>
+                <th className='table-column'>{user.firstName} {user.lastName}</th>
                 <th className='table-column'>{expense[1].category}</th>
                 <th className='table-column'>{expense[1].description}</th>
                 <th className='table-column'>${expense[1].cost}</th>

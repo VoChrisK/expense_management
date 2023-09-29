@@ -14,7 +14,11 @@ const FormExpenseModal = ({ modifyExpense, closeModal, type, users, expense }) =
       cost: Number(event.target[3].value)
     }
 
-    modifyExpense(newExpense, newExpense.userId, expense?.userId);
+    if (type === "Add") {
+      modifyExpense(newExpense);
+    } else if (type === "Update") {
+      modifyExpense(newExpense, newExpense.userId, expense.userId);
+    }
     closeModal();
   }
 

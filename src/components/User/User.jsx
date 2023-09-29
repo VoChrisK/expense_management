@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './User.css';
 import FormUserModal from './FormUserModal';
 import * as _ from 'lodash';
+import { calculateTotalExpenses } from '../../utils/calculateTotalExpenses';
 
 const User = ({ users, expenses, updateUsers, updateExpenses }) => {
   const [userId, setUserId] = useState(1);
@@ -10,9 +11,8 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
 
   const addUser = (newUser) => {
     const clonedUsers = _.cloneDeep(users);
-
     newUser["id"] = userId;
-    newUser["totalExpenses"] = [];
+    newUser["expenseIds"] = new Set();
     clonedUsers[userId] = newUser;
 
     updateUsers(clonedUsers);
@@ -31,7 +31,8 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
     const clonedExpenses = _.cloneDeep(expenses);
 
     //Before deleting the user, we need to delete all associated expenses
-    clonedUsers[userId].totalExpenses.forEach((expenseId) => {
+    const expenseIdsArray = Array.from(clonedUsers[userId].expenseIds);
+    expenseIdsArray.forEach((expenseId) => {
       delete clonedExpenses[expenseId];
     })
     delete clonedUsers[userId];
@@ -67,7 +68,7 @@ const User = ({ users, expenses, updateUsers, updateExpenses }) => {
               <tr key={key}>
                 <th className='table-column'>{user[1].firstName}</th>
                 <th className='table-column'>{user[1].lastName}</th>
-                <th className='table-column'>{user[1].totalExpenses.length}</th>
+                <th className='table-column'>${calculateTotalExpenses(user[1], expenses)}</th>
                 <th className='table-column'>
                   <button className='user-options' onClick={() => updateUserModal(user[1])}>Edit</button>
                   <button className='user-options' onClick={() => deleteUser(user[0])}>Delete</button>
