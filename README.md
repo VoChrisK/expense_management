@@ -1,12 +1,19 @@
 # User and Expense Management
-
-![Screenshot 2023-09-27 104848](https://github.com/VoChrisK/expense_management/assets/35851799/45cb9fcc-3187-4397-bd15-893004f1e205)
+![Screenshot 2023-09-29 154305](https://github.com/VoChrisK/expense_management/assets/35851799/284acce1-7c88-4971-9e53-287a8766866b)
 
 The User and Expense Management is a web tool to allow users to keep track of company expenses and user information. The user is able to add, edit, and remove users and expenses in their respective tables, and see a summary of expenses for each category.
 
-The data model for both user and expense objects is an object. The key is the unique id that corresponds to a user or expense and the value is the user's/expense's properties. This will give us a constant time complexity for adding users and expenses and updating them. However, updating expenses means we have to update the users' total expenses, and since the users' total expenses are represented by an array, this will give us a linear runtime complexity O(m), where m is the # of expenses. Deletion has a similar runtime complexity since for users, we need to delete all associated expenses and for expenses, we need to delete the expense from the user's total expenses array. Thus, updating expenses and deletion will be O(m).
+The data model for both user and expense objects is represented by an object, where the key is the unique id that corresponds to a user or expense and the value is their properties represented by a nested object. The user object will have a set of all associated expenseIds and the expense will have an associated userId. With this data model, we achieve a constant time complexity with the following operations:
 
-I forgo using an array to store the users and expenses because this will give us a runtime complexity of O(n * m) for updating expenses and deletion. We would have to find the user or expense to be updated or deleted first, then we would have to update/delete the affected user/expense. Thus, an object that stores ids as keys is ideal to optimize the runtime complexity. Unfortunately this would mean we would have to convert the object to an enumerable if we need to iterate through it, so space complexity would be a tradeoff for better time complexity.
+- Adding a user
+- Adding an expense
+- Updating a user
+- Updating an expense
+- Deleting an expense
+
+Deleting a user will give us a time complexity of O(m), where m is the total # of expenses, since we have to delete all associated expenses for that particular user.
+
+I forgo using an array to store the users and expenses because we would have to iterate through the array to find the corresponding user or expense based on id. This will ultimately give us a runtime complexity of O(n) for updating and deleting users and expenses, and specifically O(n + m) for deleting a user.
 
 ## How to run the project
 
