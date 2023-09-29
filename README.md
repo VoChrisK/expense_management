@@ -1,70 +1,16 @@
-# Getting Started with Create React App
+# User and Expense Management
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Screenshot 2023-09-27 104848](https://github.com/VoChrisK/expense_management/assets/35851799/45cb9fcc-3187-4397-bd15-893004f1e205)
 
-## Available Scripts
+The User and Expense Management is a web tool to allow users to keep track of company expenses and user information. The user is able to add, edit, and remove users and expenses in their respective tables, and see a summary of expenses for each category.
 
-In the project directory, you can run:
+The data model for both user and expense objects is an object. The key is the unique id that corresponds to a user or expense and the value is the user's/expense's properties. This will give us a constant time complexity for adding users and expenses and updating them. However, updating expenses means we have to update the users' total expenses, and since the users' total expenses are represented by an array, this will give us a linear runtime complexity O(m), where m is the # of expenses. Deletion has a similar runtime complexity since for users, we need to delete all associated expenses and for expenses, we need to delete the expense from the user's total expenses array. Thus, updating expenses and deletion will be O(m).
 
-### `npm start`
+I forgo using an array to store the users and expenses because this will give us a runtime complexity of O(n * m) for updating expenses and deletion. We would have to find the user or expense to be updated or deleted first, then we would have to update/delete the affected user/expense. Thus, an object that stores ids as keys is ideal to optimize the runtime complexity. Unfortunately this would mean we would have to convert the object to an enumerable if we need to iterate through it, so space complexity would be a tradeoff for better time complexity.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How to run the project
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1) Clone the repo to your local machine.
+2) Navigate to the root directory of the project via terminal.
+3) Run 'npm install' to install dependencies.com
+4) Run 'npm run start' to run the project.
